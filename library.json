@@ -17,12 +17,15 @@
   "dependencies": [
     {
       "name": "Mini Grafx"
+    },
+    {
+      "name": "542"
     }
   ],
   "export": {
     "include": [
       "LICENSE",
-      "src/*",
+      "src/*"
     ]
   }
 }
