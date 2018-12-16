@@ -1,19 +1,22 @@
 #include <MiniGrafx.h>
+#include <functional>
 #include "TFTKeyboard.hpp"
 #include "TFTWiFiSelector.hpp"
-#include <functional>
 
 class TFTWizard {
  public:
-  TFTWizard(MiniGrafx* gfx, const char* titleFont, const char* keyboardFont,
-            const char* regularFont);
+  TFTWizard(MiniGrafx *gfx, const char *titleFont, const char *keyboardFont,
+            const char *regularFont);
   ~TFTWizard();
   void draw();
-  void start() {this->_inProgress = true;}
-  bool inProgress() {return _inProgress;}
-  void setCallback(std::function<void(String, String)> callback) {this->callback = callback;};
+  void start() { this->_inProgress = true; }
+  bool inProgress() { return _inProgress; }
+  void setCallback(std::function<void(String, String)> callback) {
+    this->callback = callback;
+  };
   void reset();
   void touchCallback(int16_t x, int16_t y);
+  void addStep(std::function<void(TFTKeyboard*)> render, std::function<void(String)> callback);
 
  private:
   MiniGrafx *gfx;
@@ -25,7 +28,10 @@ class TFTWizard {
 
   String ssid;
   String password;
+  uint8_t additionalSteps = 0;
   std::function<void(String, String)> callback;
+  std::function<void(String)> callbackSteps[8];
+  std::function<void(TFTKeyboard*)> renderSteps[8];
 
   TFTKeyboard *keyboard;
   TFTWiFiSelector *wifiSelector;

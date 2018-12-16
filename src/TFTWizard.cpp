@@ -1,16 +1,17 @@
 #include "TFTWizard.h"
 
-TFTWizard::TFTWizard(MiniGrafx* gfx,
-                     const char* titleFont, const char* keyboardFont,
-                     const char* regularFont)
+TFTWizard::TFTWizard(MiniGrafx* gfx, const char* titleFont,
+                     const char* keyboardFont, const char* regularFont)
     : gfx(gfx),
       titleFont(titleFont),
       keyboardFont(keyboardFont),
       regularFont(regularFont) {
   keyboard = new TFTKeyboard(gfx, titleFont, keyboardFont);
-  keyboard->setSubmitCallback(std::bind(&TFTWizard::passwordCallback, this, std::placeholders::_1));
+  keyboard->setSubmitCallback(
+      std::bind(&TFTWizard::passwordCallback, this, std::placeholders::_1));
   wifiSelector = new TFTWiFiSelector(gfx, titleFont, regularFont);
-  wifiSelector->setSubmitCallback(std::bind(&TFTWizard::wifiCallback, this, std::placeholders::_1));
+  wifiSelector->setSubmitCallback(
+      std::bind(&TFTWizard::wifiCallback, this, std::placeholders::_1));
 }
 
 TFTWizard::~TFTWizard() {
@@ -44,10 +45,10 @@ void TFTWizard::draw() {
     case 1:
       keyboard->draw(F("Input WiFi Password"));
       break;
-    case 2:
-      if (callback) callback(ssid, password);
-      _inProgress = false;
-      break;
+    default:
+      if (additionalSteps > state - 2) {
+        renderSteps[state-2](keyboard);
+      }
   }
 }
 
@@ -59,5 +60,16 @@ void TFTWizard::touchCallback(int16_t x, int16_t y) {
     case 1:
       keyboard->touchCallback(x, y);
       break;
+    default:
+      if (additionalSteps > state - 2) {
+        keyboard->setSubmitCallback(callbackSteps[state-2]);
+        keyboard->touchCallback(x, y)
+      }
   }
+}
+
+void TFTWizard::addStep(std::function<void(TFTKeyboard*)> render, std::function<void(String)> callback) {
+  renderSteps[additionalSteps] = render;
+  callbackSteps[additionalSteps] = callback;
+  additionalSteps++;
 }
