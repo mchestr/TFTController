@@ -1,0 +1,30 @@
+{
+  "name": "TFTController",
+  "version": "1.0.0",
+  "description": "Helpful utilities for TFT screens",
+  "license": "MIT",
+  "authors":
+  {
+    "name": "Mike Chester",
+    "maintainer": true
+  },
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/mchestr/TFTController.git",
+    "branch": "master"
+  },
+  "frameworks": "arduino",
+  "platforms": "espressif8266",
+  "dependencies": [
+    {
+      "name": "Mini Grafx"
+    }
+  ],
+  "export": {
+    "include": [
+      "LICENSE",
+      "src/*",
+    ]
+  }
+}
