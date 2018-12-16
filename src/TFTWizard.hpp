@@ -41,4 +41,5 @@ class TFTWizard {
   void drawWiFiPassword();
   void wifiCallback(String ssid);
   void passwordCallback(String password);
+  void submitWrapper(String value);
 };

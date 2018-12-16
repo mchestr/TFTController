@@ -49,7 +49,7 @@ void TFTWiFiSelector::draw(String title) {
 void TFTWiFiSelector::touchCallback(int16_t x, int16_t y) {
   if (y > 50 && y < screenHeight - 30) {
     selectedNetwork = (y - 60) / 20;
-  } else if (y > screenHeight - 30) {
+  } else if (selectedNetwork >= 0 && y > screenHeight - 30) {
     drawNext(true);
     submitCallback(WiFi.SSID(selectedNetwork));
   }

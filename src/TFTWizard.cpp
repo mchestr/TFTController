@@ -44,14 +44,21 @@ void TFTWizard::draw() {
       wifiSelector->draw(F("Select WiFi Network"));
       break;
     case 1:
-      keyboard->draw(F("Input WiFi Password"));
+      keyboard->draw("'"+ ssid + "' WiFi Password", true);
       break;
     default:
       if (additionalSteps > state - 2) {
         renderSteps[state-2](keyboard);
+      } else {
+        callback(ssid, password);
       }
   }
   gfx->commit();
+}
+
+void TFTWizard::submitWrapper(String value) {
+  callbackSteps[state-2](value);
+  state++;
 }
 
 void TFTWizard::touchCallback(int16_t x, int16_t y) {
@@ -64,7 +71,7 @@ void TFTWizard::touchCallback(int16_t x, int16_t y) {
       break;
     default:
       if (additionalSteps > state - 2) {
-        keyboard->setSubmitCallback(callbackSteps[state-2]);
+        keyboard->setSubmitCallback(std::bind(&TFTWizard::submitWrapper, this, std::placeholders::_1));
         keyboard->touchCallback(x, y);
       }
   }
