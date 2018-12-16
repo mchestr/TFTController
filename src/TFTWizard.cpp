@@ -38,6 +38,7 @@ void TFTWizard::reset() {
 }
 
 void TFTWizard::draw() {
+  gfx->fillBuffer(0);
   switch (state) {
     case 0:
       wifiSelector->draw(F("Select WiFi Network"));
@@ -50,6 +51,7 @@ void TFTWizard::draw() {
         renderSteps[state-2](keyboard);
       }
   }
+  gfx->commit();
 }
 
 void TFTWizard::touchCallback(int16_t x, int16_t y) {
