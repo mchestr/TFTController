@@ -63,7 +63,7 @@ void TFTWizard::touchCallback(int16_t x, int16_t y) {
     default:
       if (additionalSteps > state - 2) {
         keyboard->setSubmitCallback(callbackSteps[state-2]);
-        keyboard->touchCallback(x, y)
+        keyboard->touchCallback(x, y);
       }
   }
 }
