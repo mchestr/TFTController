@@ -110,7 +110,7 @@ void TFTKeyboard::drawInput(bool isPassword) {
   }
   gfx->setColor(3);
   gfx->setTextAlignment(TEXT_ALIGN_CENTER);
-  gfx->drawString(screenWidth / 2, 40, toDisplay);
+  gfx->drawString(screenWidth / 2, 100, toDisplay);
 }
 
 inline bool TFTKeyboard::isShiftTouched(int16_t col, int16_t row) {

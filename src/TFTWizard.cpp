@@ -62,6 +62,7 @@ void TFTWizard::submitWrapper(String value) {
 }
 
 void TFTWizard::touchCallback(int16_t x, int16_t y) {
+  if (!_inProgress) return;
   switch (state) {
     case 0:
       wifiSelector->touchCallback(x, y);
