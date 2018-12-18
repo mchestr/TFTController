@@ -5,7 +5,7 @@ TFTKeyboard::TFTKeyboard(MiniGrafx* gfx, const char* titleFont, const char* keyb
 
 TFTKeyboard::~TFTKeyboard() {}
 
-void TFTKeyboard::draw(String title, bool isPassword) {
+void TFTKeyboard::draw(String title, bool isPassword, String value) {
   uint16_t col = 0;
   uint16_t row = 6;
   gfx->setFont(keyboardFont);
@@ -23,6 +23,9 @@ void TFTKeyboard::draw(String title, bool isPassword) {
   drawSubmit();
   drawBackspace();
   drawTitle(title);
+  if (buffer.equals("")) {
+    buffer = value;
+  }
   drawInput(isPassword);
 }
 

@@ -44,7 +44,7 @@ void TFTWizard::draw() {
       wifiSelector->draw(F("Select WiFi Network"));
       break;
     case 1:
-      keyboard->draw("'"+ ssid + "' WiFi Password", true);
+      keyboard->draw("'"+ ssid + "' WiFi Password", true, password);
       break;
     default:
       if (additionalSteps > state - 2) {
@@ -82,4 +82,8 @@ void TFTWizard::addStep(std::function<void(TFTKeyboard*)> render, std::function<
   renderSteps[additionalSteps] = render;
   callbackSteps[additionalSteps] = callback;
   additionalSteps++;
+}
+
+void TFTWizard::setDefaultWiFiPassword(String password) {
+  this->password = password;
 }

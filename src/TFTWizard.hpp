@@ -17,6 +17,7 @@ class TFTWizard {
   void reset();
   void touchCallback(int16_t x, int16_t y);
   void addStep(std::function<void(TFTKeyboard*)> render, std::function<void(String)> callback);
+  void setDefaultWiFiPassword(String password);
 
  private:
   MiniGrafx *gfx;
