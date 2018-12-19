@@ -44,10 +44,18 @@ void TFTWizard::draw() {
       wifiSelector->draw(F("Select WiFi Network"));
       break;
     case 1:
-      keyboard->draw("'"+ ssid + "' WiFi Password", true, password);
+      if (!wifiStepInitialized) {
+        keyboard->setDefaultValue(password);
+        wifiStepInitialized = true;
+      }
+      keyboard->draw("'"+ ssid + "' WiFi Password", true);
       break;
     default:
       if (additionalSteps > state - 2) {
+        if (!initializeStepsCalled[state-2]) {
+          initializeSteps[state-2](keyboard);
+          initializeStepsCalled[state-2] = true;
+        }
         renderSteps[state-2](keyboard);
       } else {
         callback(ssid, password);
@@ -78,9 +86,11 @@ void TFTWizard::touchCallback(int16_t x, int16_t y) {
   }
 }
 
-void TFTWizard::addStep(std::function<void(TFTKeyboard*)> render, std::function<void(String)> callback) {
+void TFTWizard::addStep(std::function<void(TFTKeyboard*)> initialize, std::function<void(TFTKeyboard*)> render, std::function<void(String)> callback) {
   renderSteps[additionalSteps] = render;
   callbackSteps[additionalSteps] = callback;
+  initializeSteps[additionalSteps] = initialize;
+  initializeStepsCalled[additionalSteps] = false;
   additionalSteps++;
 }
 

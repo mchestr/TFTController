@@ -16,7 +16,7 @@ class TFTWizard {
   };
   void reset();
   void touchCallback(int16_t x, int16_t y);
-  void addStep(std::function<void(TFTKeyboard*)> render, std::function<void(String)> callback);
+  void addStep(std::function<void(TFTKeyboard*)> initialize, std::function<void(TFTKeyboard*)> render, std::function<void(String)> callback);
   void setDefaultWiFiPassword(String password);
 
  private:
@@ -24,6 +24,7 @@ class TFTWizard {
   const char *titleFont;
   const char *keyboardFont;
   const char *regularFont;
+  bool wifiStepInitialized = false;
   uint16_t screenWidth = 240;
   uint16_t screenHeight = 320;
 
@@ -33,6 +34,8 @@ class TFTWizard {
   std::function<void(String, String)> callback;
   std::function<void(String)> callbackSteps[8];
   std::function<void(TFTKeyboard*)> renderSteps[8];
+  std::function<void(TFTKeyboard*)> initializeSteps[8];
+  bool initializeStepsCalled[8];
 
   TFTKeyboard *keyboard;
   TFTWiFiSelector *wifiSelector;

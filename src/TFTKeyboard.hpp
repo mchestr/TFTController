@@ -15,8 +15,9 @@ class TFTKeyboard {
   void setSubmitCallback(std::function<void(String value)> callback) {
     this->submitCallback = callback;
   }
-  void draw(String title, bool isPassword = false, String value = "");
+  void draw(String title, bool isPassword = false);
   void touchCallback(int16_t x, int16_t y);
+  void setDefaultValue(String value);
   String getBuffer() { return this->buffer; }
 
  private:
